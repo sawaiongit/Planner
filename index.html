@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7fc">
+  <meta name="description" content="FocusFlow — your personal study planner.">
+  <title>FocusFlow | Student Planner</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-icon"><i data-lucide="graduation-cap"></i></span>
+        <span>Focus<span class="brand-accent">Flow</span></span>
+      </a>
+
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="navigation">
+        <button class="nav-link active" data-view="dashboard">
+          <i data-lucide="layout-dashboard"></i> Dashboard
+        </button>
+        <button class="nav-link" data-view="tasks">
+          <i data-lucide="check-square"></i> My Tasks
+        </button>
+        <button class="nav-link" data-view="schedule">
+          <i data-lucide="calendar-days"></i> Study Schedule
+        </button>
+        <button class="nav-link" data-view="focus">
+          <i data-lucide="timer"></i> Focus Room
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mini-card">
+          <div class="mini-icon"><i data-lucide="zap"></i></div>
+          <h4>Keep your momentum!</h4>
+          <p>Every focused minute brings you closer to your goals.</p>
+          <div class="mini-track"><span></span></div>
+        </div>
+        <p class="sidebar-footer">MADE FOR YOUR GROWTH ✦</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand">Focus<span>Flow</span></div>
+        <div class="topbar-date" id="todayDate"></div>
+        <button class="profile" id="profileButton" title="Edit your name">
+          <span class="avatar">S</span>
+          <span class="profile-name" id="profileName">Student</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+      </header>
+
+      <section class="view active-view" id="dashboard">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow">YOUR PERSONAL LEARNING SPACE</p>
+            <h1 id="greeting">Good day, Student <span>✦</span></h1>
+            <p class="subtitle">Small steps today, big results tomorrow.</p>
+          </div>
+          <button class="primary-btn" id="quickAdd">
+            <i data-lucide="plus"></i> Add a task
+          </button>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-decoration">“</div>
+          <div class="quote-content">
+            <span class="quote-tag"><i data-lucide="sparkles"></i> DAILY INSPIRATION</span>
+            <blockquote id="quoteText">Your future is created by what you do today.</blockquote>
+            <p id="quoteAuthor">— Unknown</p>
+          </div>
+          <button class="icon-btn quote-refresh" id="newQuote" aria-label="New quote">
+            <i data-lucide="refresh-cw"></i>
+          </button>
+        </div>
+
+        <div class="section-heading">
+          <div><h2>Your overview</h2><p>A little progress adds up.</p></div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top"><span>Tasks completed</span><span class="stat-icon purple"><i data-lucide="check-check"></i></span></div>
+            <div class="stat-value" id="completedCount">0 <small>/ 0</small></div>
+            <div class="stat-bottom"><div class="progress-track"><span id="taskProgress"></span></div><span id="taskPercent">0%</span></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Study time today</span><span class="stat-icon orange"><i data-lucide="clock-3"></i></span></div>
+            <div class="stat-value" id="studyTime">0 <small>min</small></div>
+            <p class="stat-note">Time tracked in Focus Room</p>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Remaining tasks</span><span class="stat-icon green"><i data-lucide="list-todo"></i></span></div>
+            <div class="stat-value" id="remainingCount">0</div>
+            <p class="stat-note">One task at a time.</p>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h2>Today's priorities</h2><p>Stay focused on what matters.</p></div>
+              <button class="text-btn" data-go="tasks">View all <i data-lucide="arrow-up-right"></i></button>
+            </div>
+            <form id="taskForm" class="task-form">
+              <input id="taskInput" type="text" placeholder="What do you need to study?" maxlength="100" required>
+              <select id="taskSubject" aria-label="Choose subject">
+                <option value="General">General</option>
+                <option>Mathematics</option>
+                <option>Physics</option>
+                <option>Chemistry</option>
+                <option>Computer Science</option>
+                <option>English</option>
+                <option>Other</option>
+              </select>
+              <button type="submit" class="add-btn" aria-label="Add task"><i data-lucide="plus"></i></button>
+            </form>
+            <div class="task-list" id="dashboardTasks"></div>
+            <div class="empty-state" id="dashboardEmpty">
+              <i data-lucide="coffee"></i>
+              <p>Your list is clear. Add a task to get started!</p>
+            </div>
+          </article>
+
+          <article class="panel focus-panel">
+            <div class="panel-heading">
+              <div><h2>Focus session</h2><p>One thing at a time.</p></div>
+              <span class="live-dot"></span>
+            </div>
+            <div class="timer-ring">
+              <div class="timer-inner">
+                <span id="timerMode">FOCUS TIME</span>
+                <strong id="timerDisplay">25:00</strong>
+                <small id="timerStatus">Ready when you are</small>
+              </div>
+            </div>
+            <div class="timer-controls">
+              <button class="primary-btn" id="timerStart"><i data-lucide="play"></i> Start focus</button>
+              <button class="icon-btn" id="timerReset" aria-label="Reset timer"><i data-lucide="rotate-ccw"></i></button>
+            </div>
+            <button class="text-btn timer-more" data-go="focus">Open focus room <i data-lucide="arrow-right"></i></button>
+          </article>
+        </div>
+        <footer class="page-footer">Made with purpose. Keep showing up for yourself. ✦</footer>
+      </section>
+
+      <section class="view" id="tasks">
+        <div class="page-heading"><p class="eyebrow">YOUR WORKSPACE</p><h1>My Tasks</h1><p class="subtitle">Turn your plans into progress.</p></div>
+        <article class="panel task-page-panel">
+          <form id="fullTaskForm" class="full-task-form">
+            <input id="fullTaskInput" placeholder="Add a new task..." maxlength="100" required>
+            <select id="fullTaskSubject" aria-label="Task subject">
+              <option value="General">General</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Computer Science</option><option>English</option><option>Other</option>
+            </select>
+            <select id="taskPriority" aria-label="Task priority">
+              <option value="Medium">Medium priority</option><option value="High">High priority</option><option value="Low">Low priority</option>
+            </select>
+            <button class="primary-btn" type="submit"><i data-lucide="plus"></i> Add task</button>
+          </form>
+          <div class="filter-row">
+            <button class="filter-btn active" data-filter="all">All tasks</button>
+            <button class="filter-btn" data-filter="pending">To do</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+          </div>
+          <div class="task-list full-task-list" id="fullTaskList"></div>
+          <div class="empty-state" id="fullTaskEmpty"><i data-lucide="clipboard-check"></i><p>No tasks here yet. Add your first task above.</p></div>
+        </article>
+      </section>
+
+      <section class="view" id="schedule">
+        <div class="page-heading"><p class="eyebrow">PLAN WITH PURPOSE</p><h1>Study Schedule</h1><p class="subtitle">Build a routine that works for you.</p></div>
+        <article class="panel">
+          <div class="panel-heading"><div><h2>Your daily routine</h2><p>A sample schedule you can customize as you grow.</p></div></div>
+          <div class="schedule-list">
+            <div class="schedule-item"><span class="schedule-time">07:00 AM</span><span class="schedule-dot violet"></span><div><h3>Morning routine</h3><p>Get ready, stretch, and prepare for the day.</p></div><span class="schedule-chip">Routine</span></div>
+            <div class="schedule-item"><span class="schedule-time">09:00 AM</span><span class="schedule-dot blue"></span><div><h3>Deep study session</h3><p>Focus on your most challenging subject.</p></div><span class="schedule-chip">Study</span></div>
+            <div class="schedule-item"><span class="schedule-time">11:00 AM</span><span class="schedule-dot orange-dot"></span><div><h3>Practice & revision</h3><p>Solve questions and review your notes.</p></div><span class="schedule-chip">Practice</span></div>
+            <div class="schedule-item"><span class="schedule-time">02:00 PM</span><span class="schedule-dot green-dot"></span><div><h3>College work</h3><p>Assignments, lectures, and coursework.</p></div><span class="schedule-chip">College</span></div>
+            <div class="schedule-item"><span class="schedule-time">05:00 PM</span><span class="schedule-dot pink"></span><div><h3>Skills & creativity</h3><p>Practice coding or work on a personal project.</p></div><span class="schedule-chip">Growth</span></div>
+            <div class="schedule-item"><span class="schedule-time">08:00 PM</span><span class="schedule-dot violet"></span><div><h3>Daily review</h3><p>Reflect on your progress and plan tomorrow.</p></div><span class="schedule-chip">Review</span></div>
+          </div>
+          <p class="schedule-note"><i data-lucide="lightbulb"></i> These are sample times, not fixed commitments. Adjust them to your real classes and routine.</p>
+        </article>
+      </section>
+
+      <section class="view" id="focus">
+        <div class="page-heading"><p class="eyebrow">LESS DISTRACTION, MORE PROGRESS</p><h1>Your Focus Room</h1><p class="subtitle">Give one task your full attention.</p></div>
+        <article class="panel focus-room-panel">
+          <span class="quote-tag"><i data-lucide="brain"></i> POMODORO TIMER</span>
+          <div class="mode-switch">
+            <button class="mode-btn active" data-minutes="25" data-mode="Focus time">Focus · 25 min</button>
+            <button class="mode-btn" data-minutes="5" data-mode="Short break">Short break · 5 min</button>
+            <button class="mode-btn" data-minutes="15" data-mode="Long break">Long break · 15 min</button>
+          </div>
+          <div class="big-timer-ring"><div class="timer-inner"><span id="roomTimerMode">FOCUS TIME</span><strong id="roomTimerDisplay">25:00</strong><small id="roomTimerStatus">Ready when you are</small></div></div>
+          <div class="room-controls"><button class="primary-btn" id="roomTimerStart"><i data-lucide="play"></i> Start session</button><button class="secondary-btn" id="roomTimerReset"><i data-lucide="rotate-ccw"></i> Reset</button></div>
+          <p class="timer-tip"><i data-lucide="sparkles"></i> Tip: Choose one small task, silence distractions, and begin.</p>
+        </article>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
